@@ -51,7 +51,7 @@ $(function () {
 
         resultArrWrap = JSON.parse(window.localStorage.SEGRESULT)
     }
-    var pointSize = 5;
+    var pointSize = 3;
     var pointColor = '#000'
     $('#pointSize').on('input propertychange',function(){
         pointSize = parseInt($('#pointSize').val());
@@ -548,10 +548,10 @@ $(function () {
     }
 
     // fortest
-    $("#fileListInput").val('BG2.png\nBG1.png');
-
-    $("#genFileList").click();
-    $('#addNewDots').click();
+    // $("#fileListInput").val('BG2.jpg\nBG1.jpg');
+    //
+    // $("#genFileList").click();
+    // $('#addNewDots').click();
 
     $("#file").on("change", function () {
         // console.log(files)
