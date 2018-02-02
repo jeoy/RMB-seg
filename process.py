@@ -1,32 +1,42 @@
 import json
 
-file1 = open('result.txt','r')
-lines = file1.readlines()
-for line in lines:
-    line = line.strip()
-    data = json.loads(line)
-    for i in range(len(data)):
-        if (data[i]['count'] > 1):
-            for j in range(data[i]['count']):
-                f = open('%s###%d.5pt'%(data[i]['fileName'][:-4],j),'wb')
-                f.write('5'+'\n')
-                print data[i]['mark_pt']
-                f.write( str(data[i]['mark_pt'][j*5]).strip('[').strip(']')+'\n')
-                f.write( str(data[i]['mark_pt'][j*5+1]).strip('[').strip(']')+'\n')
-                f.write( str(data[i]['mark_pt'][j*5+2]).strip('[').strip(']')+'\n')
-                f.write( str(data[i]['mark_pt'][j*5+3]).strip('[').strip(']')+'\n')
-                f.write( str(data[i]['mark_pt'][j*5+4]).strip('[').strip(']')+'\n')
-                f.close()
-        elif(data[i]['count'] == 1):
-            f = open('%s.5pt'%data[i]['fileName'][:-4],'wb')
-            f.write('5'+'\n')
-            f.write( str(data[i]['mark_pt'][0]).strip('[').strip(']')+'\n')
-            f.write( str(data[i]['mark_pt'][1]).strip('[').strip(']')+'\n')
-            f.write( str(data[i]['mark_pt'][2]).strip('[').strip(']')+'\n')
-            f.write( str(data[i]['mark_pt'][3]).strip('[').strip(']')+'\n')
-            f.write( str(data[i]['mark_pt'][4]).strip('[').strip(']')+'\n')
-            f.close()
-        else:
-            continue
+file1 = open('result.json', 'r')
 
-           
+data = json.load(file1)
+
+def arr2str(arr):
+    return str(arr).strip('[').strip(']') + '\n'
+
+# length === 2
+def arr2str2(arr):
+    return str(arr[0]) + ', ' + str(arr[1]) + '\n'
+
+#  length === n
+def arr2str3(arr):
+    result = ''
+    for i in range(len(arr) - 1):
+        result += str(arr[i]) + ', ' + str(arr[i + 1]);
+    result += '\n'
+    return result
+
+
+for i in range(len(data)):
+    data_count = data[i]['count']
+    if (data_count > 1):
+        for j in range(data_count):
+            f = open('%s###%d.5pt'%(data[i]['fileName'][:-4], j), 'wb')
+            print data[i]['mark_pt'][j*5]
+            steamin = '5' + '\n'
+            for index in range(5):
+                steamin += arr2str3(data[i]['mark_pt'][j * 5 + index])
+            f.write(steamin)
+            f.close()
+    elif(data_count == 1):
+        f = open('%s.5pt'%data[i]['fileName'][:-4], 'wb')
+        steamin = '5' + '\n'
+        for index in range(5):
+            steamin += arr2str3(data[i]['mark_pt'][index])
+        f.write(steamin)
+        f.close()
+    else:
+        continue
